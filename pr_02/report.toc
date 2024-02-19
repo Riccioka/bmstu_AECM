@@ -1,0 +1,6 @@
+\babel@toc {russian}{}\relax 
+\contentsline {chapter}{\numberline {1}Введение}{3}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Выполнение работы}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Графовое представление заданного аудиофайла}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Преобразование полученного графа путем смешивания с изображением пейзажа}{6}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Заключение}{8}{chapter.3}%
