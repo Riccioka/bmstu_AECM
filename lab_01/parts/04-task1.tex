@@ -1,0 +1,155 @@
+\chapter{Задания} 
+\section{Задание 1}
+
+Содержимое файла \textit{task.s}, который соответсвует \textbf{варианту 15}:
+\begin{lstlisting}
+    .section .text
+    .globl _start;
+    len = 9 #Размер массива
+    enroll = 1 #Количество обрабатываемых элементов за одну итерацию
+    elem_sz = 4 #Размер одного элемента массива
+
+_start:
+    la x1, _x
+    addi x20, x0, (len-1)/enroll
+    lw x31, 0(x1)
+    addi x1, x1, elem_sz*1
+lp:
+    lw x2, 0(x1)
+    bltu x2, x31, lt
+    add x31, x0, x2 #!
+lt:
+    add x1, x1, elem_sz*enroll
+    addi x20, x20, -1
+    bne x20, x0, lp
+lp2: j lp2
+
+    .section .data
+_x:     .4byte 0x1
+    .4byte 0x2
+    .4byte 0x3
+    .4byte 0x4
+    .4byte 0x5
+    .4byte 0x6
+    .4byte 0x7
+    .4byte 0x8
+    .4byte 0x9
+
+\end{lstlisting}
+
+Псевдокод:
+\begin{lstlisting}{language=C}
+
+    #define len 9
+    #define enroll 1
+    #define elem_sz 4
+
+    int _x[]={1,2,3,4,5,6,7,8,9};
+
+    void _start() {
+        int x20 = (len-1)/enroll;
+        int *x1 = _x;
+        int x31 = x1[0];
+        x1++;
+    
+        do {
+            int x2 = x1[0];
+            if (x2 >= x31)
+                x31 = x2; // #
+            
+            x1++;
+            x20--;
+        } while(x20 != 0);
+
+        while(1){}
+    }
+
+\end{lstlisting}
+
+Результат выполнения компиляции:
+\begin{lstlisting}{language=bash}
+    SYMBOL TABLE:
+    80000000 l    d  .text 00000000 .text
+    80000030 l    d  .data 00000000 .data
+    00000000 l    df *ABS* 00000000 task.o
+    00000009 l       *ABS* 00000000 len
+    00000001 l       *ABS* 00000000 enroll
+    00000004 l       *ABS* 00000000 elem_sz
+    80000030 l       .data 00000000 _x
+    80000014 l       .text 00000000 lp
+    80000020 l       .text 00000000 lt
+    8000002c l       .text 00000000 lp2
+    80000000 g       .text 00000000 _start
+    80000054 g       .data 00000000 _end
+    
+    
+    
+    Дизассемблирование раздела .text:
+    
+    80000000 <_start>:
+    80000000: 00000097           auipc x1,0x0
+    80000004: 03008093           addi x1,x1,48 # 80000030 <_x>
+    80000008: 00800a13           addi x20,x0,8
+    8000000c: 0000af83           lw x31,0(x1)
+    80000010: 00408093           addi x1,x1,4
+    
+    80000014 <lp>:
+    80000014: 0000a103           lw x2,0(x1)
+    80000018: 01f16463           bltu x2,x31,80000020 <lt>
+    8000001c: 00200fb3           add x31,x0,x2
+    
+    80000020 <lt>:
+    80000020: 00408093           addi x1,x1,4
+    80000024: fffa0a13           addi x20,x20,-1
+    80000028: fe0a16e3           bne x20,x0,80000014 <lp>
+    
+    8000002c <lp2>:
+    8000002c: 0000006f           jal x0,8000002c <lp2>
+    
+    Дизассемблирование раздела .data:
+    
+    80000030 <_x>:
+    80000030: 0001                 c.addi x0,0
+    80000032: 0000                 c.unimp
+    80000034: 0002                 c.slli64 x0
+    80000036: 0000                 c.unimp
+    80000038: 00000003           lb x0,0(x0) # 0 <enroll-0x1>
+    8000003c: 0004                 0x4
+    8000003e: 0000                 c.unimp
+    80000040: 0005                 c.addi x0,1
+    80000042: 0000                 c.unimp
+    80000044: 0006                 c.slli x0,0x1
+    80000046: 0000                 c.unimp
+    80000048: 00000007           0x7
+    8000004c: 0008                 0x8
+    8000004e: 0000                 c.unimp
+    80000050: 0009                 c.addi x0,2
+
+\end{lstlisting}
+
+Содержимое файла \textit{task.hex:}
+\begin{lstlisting}
+    00000097
+    03008093
+    00800a13
+    0000af83
+    00408093
+    0000a103
+    01f16463
+    00200fb3
+    00408093
+    fffa0a13
+    fe0a16e3
+    0000006f
+    00000001
+    00000002
+    00000003
+    00000004
+    00000005
+    00000006
+    00000007
+    00000008
+    00000009    
+\end{lstlisting}
+
+В регистре x31 в конце выполнения программы должно содержаться максимальное значение массива. В нашем случае: \textbf{9}.

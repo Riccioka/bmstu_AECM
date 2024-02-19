@@ -1,0 +1,9 @@
+\babel@toc {russian}{}\relax 
+\contentsline {chapter}{\numberline {1}Цели}{3}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Задания}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Задание 1}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Задание 2}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Задание 3}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Задание 4}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Задание 5}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Заключение}{14}{section.2.6}%
